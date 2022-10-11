@@ -1,0 +1,159 @@
+LINUX ADDITIONAL CASES
+
+1. Goto /home/hduser directory and Create 2 files namely cust1.txt and cust2.txt with the first 10 lines copied from /home/hduser/hive/data/custs 
+   and last 10 lines copied from /home/hduser/hive/data/custs.
+Solution: 
+cd /home/hduser
+head /home/hduser/hive/data/custs > cust1.txt
+tail /home/hduser/hive/data/custs > cust2.txt
+
+2. Create a file namely samplefile.txt using vi editor
+a. Type/copy 10 lines of some content
+b. Goto line 5 and remove line 5 to 7 using command.
+c. Goto last line and copy last line to first line and delete the last line manually.
+d. Find for a particular word inside the file
+e. Undo the last action you did
+f. Save and quit the file
+g. Open the file again, Delete 2 words in the last line and quit without saving
+
+Solution: 
+vi samplefile.txt
+b. :5, 2dd
+c. :$, yy, :1, P, :$ , i, d..., Esc
+d. /engineer
+e. u
+f. :wq
+g. :$ , dw , dw , :q!
+
+
+3. Merge the cust1.txt and cust2.txt in the name of custmerged.txt with cust2.txt contents first and cust1.txt content next
+Solution:
+cat cust1.txt cust2.txt > custmerged.txt
+
+4. Count the number of lines in custmerged.txt and add the count in the last line of the custmerged.txt using command without using vi editor
+Solution: 
+wc -l custmerged.txt >> custmerged.txt
+
+5. Add a header as custno,firstname,lastname,age,profession in the first line of the custmerged.txt using command without using vi editor
+Solution:
+vi temp.txt (Add header)
+cat custmerged.txt >> temp.txt
+cat temp.txt > custmerged.txt
+
+6. Find for the number of occurances of the word Pilot
+Solution:
+grep -o 'Pilot' custmerged.txt | wc -l
+
+7. Find for Pilot and replace with Aircraft Pilot in the custmerged.txt
+Solution:
+sed -i 's/Pilot/Aircraft Pilot/g' custmerged.txt
+
+8. Count the number of words and lines in the custmerged.txt
+Solution:
+wc -wl custmerged.txt
+
+9. List and display only the last file created. List and display only the last but one file created in the current folder.
+Solution:
+ls -lrt | tail -1
+ls -lrt | tail -2 | head -1
+
+10. Copy the custmerged.txt in the name of custmeredcopied.txt retaining the timestamp of the original file in the copied file.
+Solution:
+cp -p custmerged.txt custmergedcopied.txt
+
+
+11. Goto /tmp directory, staying in /tmp , create directories inside /home/hduser path as src/custdata using placeholder ~ , then goto /home/hduser/src/custdata,
+then goto /home path using absolute path method, come back to /home/hduser/src/custdata using the respective placeholder, go to 2 levels higher using the
+respective placeholder
+Solution:
+cd /tmp
+mkdir -p ~/src/custdata
+cd /home/hduser/src/custdata
+cd /home
+cd -
+cd ../..
+
+
+12. Copy the custmerged.txt inside the /home/hduser/src/custdata and rename the directory custdata as customerdata
+Solution:
+cp custmerged.txt src/custdata/
+mv src/custdata src/customerdata
+
+13. Move & rename the /home/hduser/src/customerdata into the directory /tmp/custdata/process
+Solution:
+mkdir /tmp/custdata
+mv /home/hduser/src/customerdata/ /tmp/custdata/process/
+
+14. Create a zerobyte file namely success inside /tmp/custdata/process
+touch /tmp/custdata/process/success
+
+15. Create a dir called /tmp/custdata/archive
+Solution:
+mkdir -p /tmp/custdata/archive
+
+16. compress using gzip compression the /tmp/custdata/process/custmerged.txt file and move into /tmp/custdata/archive
+Solution:
+gzip /tmp/custdata/process/custmerged.txt 
+mv /tmp/custdata/process/custmerged.txt.gz /tmp/custdata/archive/
+
+Remove the /tmp/custdata/process directory.
+Solution:
+rm -r /tmp/custdata/process 
+
+17. Create a user in your name, set password as hduser, switch user to the user created, create a file inside /tmp directory in your name logged in your name.
+Solution:
+sudo useradd viki
+sudo passwd viki
+su viki
+vi /tmp/viki.txt
+
+18. Remove write access for user using octal number and naming methods using chmod, try writing the file using vi editor
+Solution:
+chmod 500 /home/viki
+vi newfile.txt
+E212: Cant open file for writing
+
+Hint: Read-4, Write-2, Execute-1
+
+Even when write access is removed for a file, user can write new contents in the file using :wq! option. File is getting replaced by the new content.
+
+19. Repeate the step 18 for other user also, you can use hduser as others here.
+Solution:
+chmod u-w /home/hduser
+vi newfile.txt
+
+20. Create a local variable called welcomemessage="Welcome aspirants", convert it into environmental variable, check whether it is added in the env variable.
+Solution:
+welcomemessage='Welcome Aspirants'  --> Hint: Dont give spaces before or after =
+echo welcomemessage  --> Prints welcomemessage
+echo $welcomemessage --> Prints Welcome Aspirants
+export welcomemesage
+env | grep welcomemessage
+
+21. Add the env variable into .bashrc profile and ensure the env variable is set every time.
+vi ~/.bashrc 
+export WELCOMEMESSAGE='Welcome Aspirants'
+:wq
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
